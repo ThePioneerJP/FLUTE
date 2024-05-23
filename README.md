@@ -4,9 +4,10 @@ FLUTE: Flexible Language Unified Tuning Elixir. Provides a factory and an abstra
 # LICENSE
 The repository is licensed under Modular and Inclusive Software Advancement (MISA) License v 1.0.
 
-There are 3 main policies contained in this license.
+There are 4 main policies contained in this license.
 1. Disclaimer of Liability
 2. Naming Continuity Obligation
 3. Waiver of Other Copyrights
+4. Modular Extensibility (Defines how to modify the license)
 
 See [LICENSE.md](LICENSE.md) for more details.
