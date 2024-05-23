@@ -1,4 +1,4 @@
-# Modular and Inclusive Software Advancement (MISA) License v 1.1
+# Modular and Inclusive Software Advancement (MISA) License v 1.2
 
 ## 1. Disclaimer of Liability
 
@@ -26,7 +26,7 @@ For example, if the originating repository's name was "AAA" at point A and "BBB"
 
 ## 3. Waiver of Other Copyrights
 
-Except for the naming continuity obligation, all other copyrights associated with this product are waived.
+Except for the naming continuity obligation and any copyrights associated with additional clauses or modifications in Sections 5 and onwards, all other copyrights associated with this product are waived.
 
 ## 4. Modular Extensibility
 
