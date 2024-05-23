@@ -1,4 +1,4 @@
-# Modular and Inclusive Software Advancement (MISA) License v 1.3
+# Modular and Inclusive Software Advancement License Classic (MISA-CLASSIC) v 1.3
 
 ## 1. Disclaimer of Liability
 
