@@ -17,20 +17,16 @@ class ClaudePromptProcessor(AbstractPromptProcessor):
         self,
         prompt: Union[str, List[str]],
         *,
-        model: Optional[str] = None,
-        max_tokens: Optional[int] = None,
+        model: Optional[str] = "claude-3-haiku-20240307",
+        max_tokens: Optional[int] = 4096,
         temperature: float = 1.0,
         top_p: float = 1.0,
-        n: int = 1,
-        stop: Optional[Union[str, List[str]]] = None,
-        presence_penalty: float = 0.0,
-        frequency_penalty: float = 0.0,
         logprobs: Optional[int] = None,
         stream: bool = False,
+        system: Optional[str] = None,
         # Claude specific arguments
         metadata: Optional[dict] = None,
         stop_sequences: Optional[List[str]] = None,
-        system: Optional[str] = None,
         tool_choice: Optional[Union[str, dict]] = None,
         tools: Optional[List[dict]] = None,
         top_k: Optional[int] = None,
@@ -43,17 +39,13 @@ class ClaudePromptProcessor(AbstractPromptProcessor):
         
         kwargs = {
             "model": model,
-            "max_tokens_to_sample": max_tokens,
+            "max_tokens": max_tokens,
             "temperature": temperature,
             "top_p": top_p,
-            "num_completions": n,
             "stop_sequences": stop_sequences,
-            "presence_penalty": presence_penalty,
-            "frequency_penalty": frequency_penalty,
             "logprobs": logprobs,
-            "stream": stream,
             "metadata": metadata,
-            "system_prompt": system,
+            "system": super().remove_special_characters(system),
             "tool_choice": tool_choice,
             "tools": tools,
             "top_k": top_k,
@@ -62,14 +54,12 @@ class ClaudePromptProcessor(AbstractPromptProcessor):
         
         kwargs = {k: v for k, v in kwargs.items() if v is not None}
         
+        messages = []
         if isinstance(prompt, str):
-            prompt = [anthropic.prompt.human_prompt(remove_special_characters(prompt))]
+            messages.append({"role": "user", "content": super().remove_special_characters(prompt)})
         else:
-            prompt = [anthropic.prompt.human_prompt(remove_special_characters(p)) for p in prompt]
+            messages.extend([{"role": "user", "content": super().remove_special_characters(p)} for p in prompt])
 
-        response = anthropic.api.generate_completions(prompt=prompt, **kwargs)
+        response = anthropic.Anthropic().messages.create(messages=messages, **kwargs) if stream else anthropic.Anthropic().messages.create(messages=messages, **kwargs)
         
-        if stream:
-            return response
-        else:
-            return [choice["completion"] for choice in response["choices"]]
+        return response.content[0].text

@@ -5,61 +5,79 @@ from AbstractPromptProcessor import AbstractPromptProcessor
 
 try:
     import google.generativeai as genai
+    import google.generativeai.types as genai_types
+    from google.generativeai.types import HarmCategory, HarmBlockThreshold
+    import google.ai.generativelanguage as genai_lang
 except ImportError:
     genai = None
 
 class GeminiPromptProcessor(AbstractPromptProcessor):
     def __init__(self, api_key: Optional[str] = None, model: str = "models/gemini-1.5-flash-latest"):
         super().__init__(api_key)
+        genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel(model)
 
     def generate_response(
         self,
         prompt: Union[str, List[str]],
         *,
-        model: Optional[str] = None,
+        model: Optional[str] = "models/gemini-1.5-flash-latest",
         max_tokens: Optional[int] = None,
         temperature: float = 1.0,
         top_p: float = 1.0,
+        top_k: int = 1,
         n: int = 1,
         stop: Optional[Union[str, List[str]]] = None,
-        presence_penalty: float = 0.0,
-        frequency_penalty: float = 0.0,
-        logprobs: Optional[int] = None,
         stream: bool = False,
+        system: Optional[str] = None,
         # Gemini specific arguments
-        safety_settings: Optional[genai.SafetySettings] = None,
+        safety_settings = {
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+            # Not supported in Gemini models
+            # HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE,
+            # HarmCategory.HARM_CATEGORY_DEROGATORY: HarmBlockThreshold.BLOCK_NONE,
+            # HarmCategory.HARM_CATEGORY_TOXICITY: HarmBlockThreshold.BLOCK_NONE,
+            # HarmCategory.HARM_CATEGORY_VIOLENCE: HarmBlockThreshold.BLOCK_NONE,
+            # HarmCategory.HARM_CATEGORY_SEXUAL: HarmBlockThreshold.BLOCK_NONE,
+            # HarmCategory.HARM_CATEGORY_MEDICAL: HarmBlockThreshold.BLOCK_NONE,
+            # HarmCategory.HARM_CATEGORY_DANGEROUS: HarmBlockThreshold.BLOCK_NONE,
+        },
         generation_config: Optional[genai.GenerationConfig] = None,
-        tools: Optional[genai.FunctionLibrary] = None,
-        tool_config: Optional[genai.ToolConfig] = None,
-        system_instruction: Optional[genai.Content] = None,
+        tools: Optional[genai_types.FunctionLibrary] = None,
+        tool_config: Optional[genai_lang.ToolConfig] = None,
     ) -> Union[str, List[str]]:
         if genai is None:
             raise ImportError("The 'google.generativeai' library is not installed. Please install it to use GeminiPromptProcessor.")
         
-        if model is not None:
-            self.model = genai.GenerativeModel(model)
+        if model is not None or system is not None:
+            self.model = genai.GenerativeModel(model, system_instruction=super().remove_special_characters(system))
 
         contents = []
         if isinstance(prompt, str):
-            contents.append(genai.Content(text=remove_special_characters(prompt)))
+            contents.append(super().remove_special_characters(prompt))
         else:
-            contents.extend([genai.Content(text=remove_special_characters(p)) for p in prompt])
+            contents.extend([super().remove_special_characters(p) for p in prompt])
+
+        if generation_config is None:
+            generation_config = genai.GenerationConfig(
+                    candidate_count=n,
+                    stop_sequences=stop,
+                    max_output_tokens=max_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
+                    top_k=top_k,
+            )
 
         response = self.model.generate_content(
-            contents,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            top_p=top_p,
+            contents=contents,
             stream=stream,
             safety_settings=safety_settings,
             generation_config=generation_config,
             tools=tools,
             tool_config=tool_config,
-            system_instruction=system_instruction,
         )
 
-        if stream:
-            return response
-        else:
-            return [candidate.text for candidate in response.candidates]
+        return response.text

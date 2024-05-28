@@ -22,6 +22,7 @@ class AbstractPromptProcessor(ABC):
         frequency_penalty: float = 0.0,
         logprobs: Optional[int] = None,
         stream: bool = False,
+        system: Optional[str] = None,
     ) -> Union[str, List[str]]:
         """
         Generate a response from the language model.
@@ -38,6 +39,7 @@ class AbstractPromptProcessor(ABC):
             frequency_penalty: The penalty for frequent tokens.
             logprobs: The number of logprobs to return.
             stream: Whether to stream the response.
+            system: System Prompt.
 
         Returns:
             The generated response or a list of responses.
@@ -66,7 +68,9 @@ class AbstractPromptProcessor(ABC):
         if self._api_key is None:
             raise ValueError(f"API key not found in environment variable {env_var}")
         
-    def remove_special_characters(text):
+    def remove_special_characters(self, text):
+        if text is None:
+            return text
         text = text.replace("<|", "")
         text = text.replace("|>", "")
         return text

@@ -18,16 +18,17 @@ class GPTPromptProcessor(AbstractPromptProcessor):
         prompt: Union[str, List[str]],
         *,
         model: str = "gpt-4o",
-        max_tokens: Optional[int] = None,
+        max_tokens: Optional[int] = 4096,
         temperature: float = 1.0,
         top_p: float = 1.0,
         n: int = 1,
         stop: Optional[Union[str, List[str]]] = None,
-        presence_penalty: float = 0.0,
-        frequency_penalty: float = 0.0,
         logprobs: Optional[int] = None,
         stream: bool = False,
+        system: Optional[str] = None,
         # GPT specific arguments
+        presence_penalty: float = 0.0,
+        frequency_penalty: float = 0.0,
         logit_bias: Optional[dict] = None,
         top_logprobs: Optional[int] = None,
         response_format: Optional[dict] = None,
@@ -44,10 +45,12 @@ class GPTPromptProcessor(AbstractPromptProcessor):
             openai.organization = self.organization
 
         messages = []
+        if system is not None:
+            messages.append({"role": "system", "content": super().remove_special_characters(system)})
         if isinstance(prompt, str):
-            messages.append({"role": "user", "content": remove_special_characters(prompt)})
+            messages.append({"role": "user", "content": super().remove_special_characters(prompt)})
         else:
-            messages.extend([{"role": "user", "content": remove_special_characters(p)} for p in prompt])
+            messages.extend([{"role": "user", "content": super().remove_special_characters(p)} for p in prompt])
 
         kwargs = {
             "model": model,
@@ -73,9 +76,6 @@ class GPTPromptProcessor(AbstractPromptProcessor):
 
         kwargs = {k: v for k, v in kwargs.items() if v is not None}
 
-        response = openai.ChatCompletion.create(**kwargs)
+        response = openai.chat.completions.create(**kwargs)
 
-        if stream:
-            return response
-        else:
-            return [choice["message"]["content"] for choice in response["choices"]]
+        return response.choices[0].message.content.strip()

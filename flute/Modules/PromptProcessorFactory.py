@@ -2,7 +2,6 @@
 
 from typing import Optional
 
-import flute
 from AbstractPromptProcessor import AbstractPromptProcessor
 from ClaudePromptProcessor import ClaudePromptProcessor
 from GPTPromptProcessor import GPTPromptProcessor
