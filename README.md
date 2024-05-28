@@ -1,6 +1,13 @@
 # FLUTE
 FLUTE: Flexible Language Unified Tuning Elixir. Provides a factory and an abstract object for LLMs, and possibly BCIs in the future.
 
+## Installation
+
+You can install FLUTE using pip:
+```
+pip install FLUTE-LLM
+```
+
 ## Usage
 
 ### Creating a Prompt Processor
