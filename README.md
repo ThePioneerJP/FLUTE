@@ -35,7 +35,7 @@ response = prompt_processor.generate_response(prompt, max_tokens=100, temperatur
 print(response)
 ```
 
-The `generate_response` method takes various parameters to control the generation process, such as `max_tokens`, `temperature`, `top_p`, etc. Refer to the specific prompt processor class documentation for more details on the available parameters.
+The `generate_response` method takes various parameters to control the generation process, such as `max_tokens`, `temperature`, `top_p`, `system`, etc. Refer to the specific prompt processor class documentation for more details on the available parameters.
 
 ### Class Diagram
 

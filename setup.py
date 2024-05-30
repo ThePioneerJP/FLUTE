@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='FLUTE-LLM',
-    version='0.1.0',
+    version='0.1.1',
     description='A package for prompt processing and language model interaction',
     author='The Pioneer',
     url='https://github.com/thepioneerjp/FLUTE',
@@ -14,8 +14,12 @@ setup(
         'anthropic',
         'google-generativeai',
         'python-dotenv',
-        'pytest'
+        'pytest',
     ],
+    package_data={
+        '': ['*.txt', '*.md', '*.json', '*.csv', '*.yaml', '*.yml', "LICENSE"],
+        'flute': ['**/*'],
+    },
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
