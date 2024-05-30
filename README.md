@@ -23,6 +23,15 @@ api_key = "your_api_key"
 prompt_processor = PromptProcessorFactory.create_prompt_processor(model_name, api_key)
 ```
 
+For Claude, GPT, and Gemini, you may simply write:
+```python
+from PromptProcessorFactory import PromptProcessorFactory
+
+model_name = "claude-3-haiku-20240307"
+
+prompt_processor = PromptProcessorFactory.create_prompt_processor(model_name)
+```
+
 The `create_prompt_processor` method will return an instance of the appropriate prompt processor class based on the provided model name.
 
 ### Generating a Response
