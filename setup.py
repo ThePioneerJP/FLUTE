@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='FLUTE-LLM',
-    version='0.1.2',
+    version='0.1.4',
     description='A package for prompt processing and language model interaction',
     author='The Pioneer',
     url='https://github.com/thepioneerjp/FLUTE',

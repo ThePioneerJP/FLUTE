@@ -4,10 +4,11 @@ from typing import Optional
 from dotenv import load_dotenv
 import os
 
-from AbstractPromptProcessor import AbstractPromptProcessor
-from ClaudePromptProcessor import ClaudePromptProcessor
-from GPTPromptProcessor import GPTPromptProcessor
-from GeminiPromptProcessor import GeminiPromptProcessor
+import flute
+from flute.Modules.AbstractPromptProcessor import AbstractPromptProcessor
+from flute.Modules.ClaudePromptProcessor import ClaudePromptProcessor
+from flute.Modules.GPTPromptProcessor import GPTPromptProcessor
+from flute.Modules.GeminiPromptProcessor import GeminiPromptProcessor
 
 class PromptProcessorFactory:
     @staticmethod

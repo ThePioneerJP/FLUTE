@@ -1,7 +1,8 @@
 # GPTPromptProcessor.py
 
 from typing import List, Union, Optional
-from AbstractPromptProcessor import AbstractPromptProcessor
+import flute
+from flute.Modules.AbstractPromptProcessor import AbstractPromptProcessor
 
 try:
     import openai

@@ -15,7 +15,8 @@ pip install FLUTE-LLM
 To create a prompt processor, use the `PromptProcessorFactory` class and call the `create_prompt_processor` method with the desired model name and API key:
 
 ```python
-from PromptProcessorFactory import PromptProcessorFactory
+import flute
+from flute.Modules.PromptProcessorFactory import PromptProcessorFactory
 
 model_name = "claude-3-haiku-20240307"
 api_key = "your_api_key"
@@ -25,7 +26,8 @@ prompt_processor = PromptProcessorFactory.create_prompt_processor(model_name, ap
 
 For Claude, GPT, and Gemini, you may simply write:
 ```python
-from PromptProcessorFactory import PromptProcessorFactory
+import flute
+from flute.Modules.PromptProcessorFactory import PromptProcessorFactory
 
 model_name = "claude-3-haiku-20240307"
 
