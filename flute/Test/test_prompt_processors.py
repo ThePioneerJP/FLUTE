@@ -51,7 +51,7 @@ def test_create_gemini_prompt_processor():
     assert isinstance(response, str)
 
 def test_create_gemini_prompt_processor_without_api_key():
-    processor = PromptProcessorFactory.create_prompt_processor("models/gemini-1.5-flash-latest")
+    processor = PromptProcessorFactory.create_prompt_processor("gemini-1.5-flash-latest")
     assert processor.model.model_name == "models/gemini-1.5-flash-latest"
 
     response = processor.generate_response("Hello, how are you?", max_tokens=4096, temperature=1.0, top_p=1, system="You are an assistant")

@@ -41,9 +41,13 @@ class PromptProcessorFactory:
             api_key = os.getenv("OPENAI_API_KEY")
             return GPTPromptProcessor(api_key=api_key)
         elif model_name in [
+            "gemini-1.5-pro-latest", 
+            "gemini-1.5-flash-latest",
+            "gemini-1.0-pro",
+            "gemini-pro-vision",
             "models/gemini-1.5-pro-latest", 
             "models/gemini-1.5-flash-latest",
-            "models/gemini-pro",
+            "models/gemini-1.0-pro",
             "models/gemini-pro-vision",
         ]:
             api_key = os.getenv("GOOGLE_API_KEY")
