@@ -90,9 +90,9 @@ The class diagram shows the inheritance relationship between the abstract base c
 Those listed in [PromptProcessorFactory.py](/flute/Modules/PromptProcessorFactory.py) are currently supported.
 
 In brief, they consist of:
-- GPT-4 models (GPT-4, GPT-4-turbo, GPT-4o and most of their different versions)
-- Claude 3 models (Haiku, Sonnet, and Opus)
-- Gemini models(1.0 Pro, 1.0 Pro-vision, 1.5 Flash, and 1.5 Pro)
+- GPT-4 models (GPT-4, GPT-4-turbo, GPT-4o, and most of their different versions)
+- Claude 3 and 3.5 models (Haiku, Sonnet, and Opus)
+- Gemini models(1.0 Pro, 1.5 Flash, and 1.5 Pro)
 
 # LICENSE
 The repository is licensed under the latest version of Modular and Inclusive Software Advancement License Classic (MISA-CLASSIC License).

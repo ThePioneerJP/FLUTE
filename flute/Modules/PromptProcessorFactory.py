@@ -20,6 +20,7 @@ class PromptProcessorFactory:
             "claude-3-opus-20240229",
             "claude-3-sonnet-20240229",
             "claude-3-haiku-20240307",
+            "claude-3-5-sonnet-20240620"
         ]:
             api_key = os.getenv("ANTHROPIC_API_KEY")
             return ClaudePromptProcessor(api_key=api_key, model=model_name)
@@ -44,11 +45,9 @@ class PromptProcessorFactory:
             "gemini-1.5-pro-latest", 
             "gemini-1.5-flash-latest",
             "gemini-1.0-pro",
-            "gemini-pro-vision",
             "models/gemini-1.5-pro-latest", 
             "models/gemini-1.5-flash-latest",
             "models/gemini-1.0-pro",
-            "models/gemini-pro-vision",
         ]:
             api_key = os.getenv("GOOGLE_API_KEY")
             return GeminiPromptProcessor(api_key=api_key, model=model_name)

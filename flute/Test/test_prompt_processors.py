@@ -27,6 +27,13 @@ def test_create_claude_prompt_processor_without_api_key():
     response = processor.generate_response("Hello, how are you?", max_tokens=4096, temperature=1.0, top_p=1, system="You are an assistant")
     assert isinstance(response, str)
 
+def test_create_claude_3_5_prompt_processor_without_api_key():
+    processor = PromptProcessorFactory.create_prompt_processor("claude-3-5-sonnet-20240620")
+    assert processor.model == "claude-3-5-sonnet-20240620"
+
+    response = processor.generate_response("Hello, how are you?", max_tokens=4096, temperature=1.0, top_p=1, system="You are an assistant")
+    assert isinstance(response, str)    
+
 def test_create_gpt_prompt_processor():
     api_key = os.getenv("OPENAI_API_KEY")
     processor = PromptProcessorFactory.create_prompt_processor("gpt-4o", api_key=api_key)
